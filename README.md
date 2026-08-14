@@ -1,13 +1,12 @@
-# G-Sec Yield Curve Modelling
+Tested on three real 2026 dates the model never trained on, using each date's actual realized macro values:
 
-Modelling and forecasting the Indian G-Sec yield curve using RBI/CCIL trade data and macro-financial variables (repo rate, M3 growth, US 10Y, SOFR, USD/INR, CPI, WPI). The variable set follows Dua & Raje (2014), *"Determinants of Yields on Government Securities in India."*
+| Date | Predicted `india_10y` | Actual `india_10y` | Error | Error % |
+|---|---|---|---|---|
+| 2026-02-03 | 6.5104% | 6.721% | -0.2106 | -3.13% |
+| 2026-03-06 | 6.4848% | 6.688% | -0.2032 | -3.04% |
+| 2026-04-01 | 6.8534% | 6.960% | -0.1066 | -1.53% |
 
-## What this project does
-1. Constructs a daily par-yield-equivalent G-Sec curve (1Y–30Y) from raw CCIL trade-by-trade data — filtering to central government fixed-coupon securities, bucketing trades by residual maturity, and computing face-value-weighted yields.
-2. Assembles supporting macro-financial variables (repo rate, M3 growth, US 10Y, SOFR, USD/INR, CPI, WPI) from RBI DBIE, FRED, and MoSPI.
-3. Decomposes the standardized weekly panel via PCA, then tests whether the resulting factors are forecastable using ARIMA.
-4. Builds a direct multi-variable regression of `india_10y` on the raw macro variables, using backward elimination and forward stepwise selection to identify significant predictors.
-5. Validates the final model on a genuine out-of-sample holdout and on specific real 2026 dates the model never trained on.
+The model consistently **underpredicts** the actual yield across all three dates, though the gap narrows over time (-3.13% → -3.04% → -1.53%). This is a systematic bias worth investigating further — a missing variable, a level shift, or possibly a sign/scale issue in one of the coefficients — rather than something that will average out with more data points.
 
 ## Methodology notes and limitations
 
