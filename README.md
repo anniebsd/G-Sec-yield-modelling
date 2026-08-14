@@ -53,7 +53,7 @@ Full reasoning and step-by-step analysis for each stage is in [`PROJECT_LOG.md`]
 
 ## Known limitations & next steps
 
-- **Conditional, not unconditional, forecasting.** The final model predicts `india_10y` using that same week's *actual* macro values — it hasn't yet been extended to forecast using only information available before the prediction date.
+- **Conditional, not unconditional, forecasting, (Uses realized inputs, not lagged ones)** The model was tested by feeding in real macro values for each date and comparing the prediction to the actual yield — a genuine out-of-sample test of the fitted relationship, though the inputs themselves are not yet forecasted ahead of time.
 - **Stationarity/cointegration not yet tested.** The regression is run on levels, not differences. Since yields and rates are typically non-stationary, this raises a risk of spurious regression that hasn't been formally ruled out yet — a stationarity/cointegration check is the next planned addition.
 - **Small out-of-sample evaluation set.** The three hand-picked 2026 dates in the Findings section are illustrative; the full holdout evaluation (Jan–Jul 2026, all weeks) gives RMSE = 0.1248 and is the more representative number.
 - **Next step:** extend to unconditional forecasting, add stationarity/cointegration diagnostics, and evaluate across the full holdout period rather than a handful of example dates.
