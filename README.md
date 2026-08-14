@@ -1,6 +1,11 @@
+> **Key takeaways:** Built a regression model of the Indian 10Y G-Sec yield using ~4.5 years of RBI/CCIL trade data and macro variables (repo rate, M3, US 10Y, SOFR, USD/INR, CPI, WPI). Along the way, caught and fixed two real data errors that would have silently corrupted the results — a frozen/stale WPI series and a CPI/WPI base-year splice issue — plus a PCA leakage bug where the target variable had been included in its own factor decomposition. After fixing these and rebuilding the pipeline, the final 5-variable regression achieved an out-of-sample RMSE of **0.1248** on a genuine Jan–Jul 2026 holdout it never trained on.
+
+
 # G-Sec Yield Curve Modelling
 
 Modelling and forecasting the Indian G-Sec yield curve using RBI/CCIL trade data and macro-financial variables (repo rate, M3 growth, US 10Y, SOFR, USD/INR, CPI, WPI). The variable set follows Dua & Raje (2014), *"Determinants of Yields on Government Securities in India."*
+
+G-Sec yields don't move in lockstep with the policy rate — over the sample period, the repo rate was cut (5.50% → 5.25%) while G-Sec yields broadly *rose*, a real divergence driven by fiscal and liquidity pressures rather than monetary policy alone. Understanding which macro variables actually move the curve, and how reliably, is directly relevant to rates desks, treasury functions, and macro/fixed-income research.
 
 ## What this project does
 1. Constructs a daily par-yield-equivalent G-Sec curve (1Y–30Y) from raw CCIL trade-by-trade data — filtering to central government fixed-coupon securities, bucketing trades by residual maturity, and computing face-value-weighted yields.
@@ -45,6 +50,13 @@ The project went through several iterations, each motivated by a specific proble
 - T-Bills were excluded from the yield curve construction to keep scope manageable; this removes visibility into the very short end (<1Y) of the curve.
 
 Full reasoning and step-by-step analysis for each stage is in [`PROJECT_LOG.md`](https://github.com/anniebsd/G-Sec-yield-modelling/blob/main/PROJECT_LOG.md).
+
+## Known limitations & next steps
+
+- **Conditional, not unconditional, forecasting.** The final model predicts `india_10y` using that same week's *actual* macro values — it hasn't yet been extended to forecast using only information available before the prediction date.
+- **Stationarity/cointegration not yet tested.** The regression is run on levels, not differences. Since yields and rates are typically non-stationary, this raises a risk of spurious regression that hasn't been formally ruled out yet — a stationarity/cointegration check is the next planned addition.
+- **Small out-of-sample evaluation set.** The three hand-picked 2026 dates in the Findings section are illustrative; the full holdout evaluation (Jan–Jul 2026, all weeks) gives RMSE = 0.1248 and is the more representative number.
+- **Next step:** extend to unconditional forecasting, add stationarity/cointegration diagnostics, and evaluate across the full holdout period rather than a handful of example dates.
 
 ## Repository structure
 - `final_model.ipynb` — final, clean analysis notebook (data pipeline, backward elimination + ladder selection, holdout and real-date validation)
