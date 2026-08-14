@@ -42,18 +42,17 @@ The project went through several iterations, each motivated by a specific proble
 5. **CPI/WPI base-year error.** The trimmed data still looked wrong. Traced it to CPI and WPI each switching base years partway through the series (2012-base vs. 2024-base) without reconciliation — CPI was frozen at 1.33% for 30 straight weeks as a result. Fixed by splicing the two base-year series at the correct cutover point.
 
 6. **Final regression.** With clean data, reran backward elimination and the ladder method independently — both converged on the same variable set and coefficients, confirming the selection wasn't a fitting artifact. Validated with walk-forward backtesting, then forecast `india_10y` for three real 2026 dates the model never trained on, feeding in each date's actual macro values and comparing the prediction against the true yield.
-   *(Next step: extend this to unconditional forecasting — predicting future yields using only information available today, rather than that period's realized macro values.)*
 
 **Other technical notes:**
 - Variables are standardized (zero mean, unit variance) before PCA, since raw variables span very different natural scales (single-digit yields vs. USD/INR in the 90s vs. double-digit growth rates) — an unstandardized covariance matrix would let scale, not economic significance, dominate the components.
-- The current final model is a **conditional regression**: it uses each week's actual macro values to explain/predict that week's yield. It has not yet been extended to forecast using only prior information.
+- The current final model is a **conditional regression**: it uses each week's actual macro values to explain/predict that week's yield. It has not yet been extended to forecast using only prior information(unconditional).
 - T-Bills were excluded from the yield curve construction to keep scope manageable; this removes visibility into the very short end (<1Y) of the curve.
 
 Full reasoning and step-by-step analysis for each stage is in [`PROJECT_LOG.md`](https://github.com/anniebsd/G-Sec-yield-modelling/blob/main/PROJECT_LOG.md).
 
 ## Known limitations & next steps
 
-- **Conditional, not unconditional, forecasting, (Uses realized inputs, not lagged ones)** The model was tested by feeding in real macro values for each date and comparing the prediction to the actual yield — a genuine out-of-sample test of the fitted relationship, though the inputs themselves are not yet forecasted ahead of time.
+- **Uses realized inputs, not lagged ones** The model was tested by feeding in real macro values for each date and comparing the prediction to the actual yield — a genuine out-of-sample test of the fitted relationship, though the inputs themselves are not yet forecasted ahead of time.
 - **Stationarity/cointegration not yet tested.** The regression is run on levels, not differences. Since yields and rates are typically non-stationary, this raises a risk of spurious regression that hasn't been formally ruled out yet — a stationarity/cointegration check is the next planned addition.
 - **Small out-of-sample evaluation set.** The three hand-picked 2026 dates in the Findings section are illustrative; the full holdout evaluation (Jan–Jul 2026, all weeks) gives RMSE = 0.1248 and is the more representative number.
 - **Next step:** extend to unconditional forecasting, add stationarity/cointegration diagnostics, and evaluate across the full holdout period rather than a handful of example dates.
