@@ -1,3 +1,17 @@
+# G-Sec Yield Curve Modelling
+
+Modelling and forecasting the Indian G-Sec yield curve using RBI/CCIL trade data and macro-financial variables (repo rate, M3 growth, US 10Y, SOFR, USD/INR, CPI, WPI). The variable set follows Dua & Raje (2014), *"Determinants of Yields on Government Securities in India."*
+
+## What this project does
+1. Constructs a daily par-yield-equivalent G-Sec curve (1Y–30Y) from raw CCIL trade-by-trade data — filtering to central government fixed-coupon securities, bucketing trades by residual maturity, and computing face-value-weighted yields.
+2. Assembles supporting macro-financial variables (repo rate, M3 growth, US 10Y, SOFR, USD/INR, CPI, WPI) from RBI DBIE, FRED, and MoSPI.
+3. Decomposes the standardized weekly panel via PCA, then tests whether the resulting factors are forecastable using ARIMA.
+4. Builds a direct multi-variable regression of `india_10y` on the raw macro variables, using backward elimination and forward stepwise selection to identify significant predictors.
+5. Validates the final model on a genuine out-of-sample holdout and on specific real 2026 dates the model never trained on.
+
+## Findings so far
+
+The final model, fit on data through Dec 2025, is: india_10y = 5.4344 − 0.0467·m3_growth + 0.0706·us_10y + 0.2289·sofr + 0.1255·cpi + 0.0524·wpi
 Tested on three real 2026 dates the model never trained on, using each date's actual realized macro values:
 
 | Date | Predicted `india_10y` | Actual `india_10y` | Error | Error % |
