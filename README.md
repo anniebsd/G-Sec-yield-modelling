@@ -49,7 +49,7 @@ The project went through several iterations, each motivated by a specific proble
 - T-Bills were excluded from the yield curve construction to keep scope manageable; this removes visibility into the very short end (<1Y) of the curve.
 
 Full reasoning and step-by-step analysis for each stage is in [`PROJECT_LOG.md`](https://github.com/anniebsd/G-Sec-yield-modelling/blob/main/PROJECT_LOG.md).
-
+ 
 ## Known limitations & next steps
 
 - **Uses realized inputs, not lagged ones** The model was tested by feeding in real macro values for each date and comparing the prediction to the actual yield — a genuine out-of-sample test of the fitted relationship, though the inputs themselves are not yet forecasted ahead of time.
