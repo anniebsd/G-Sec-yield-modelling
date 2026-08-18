@@ -67,4 +67,4 @@ Full reasoning and step-by-step analysis for each stage is in [`PROJECT_LOG.md`]
 Core pipeline complete: data cleaning, PCA exploration, ARIMA testing (scrapped), and final multi-variable regression validated against a genuine 2026 holdout. Still to do: extend the model to unconditional forecasting — predicting future yields from only information available at the time of prediction, rather than that period's realized macro values.
 
 ## Tools
-Python (pandas, numpy, scipy, sklearn, statsmodels, matplotlib, seaborn), Jupyter Notebook.
+Python (pandas, numpy, scipy, sklearn, statsmodels, matplotlib, seaborn), Jupyter Notebook, Microsoft Excel.
