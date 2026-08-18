@@ -3,7 +3,7 @@
 
 # G-Sec Yield Curve Modelling
 
-Modelling and forecasting the Indian G-Sec yield curve using RBI/CCIL trade data and macro-financial variables (repo rate, M3 growth, US 10Y, SOFR, USD/INR, CPI, WPI). The variable set follows Dua & Raje (2014), *"Determinants of Yields on Government Securities in India."*
+Modelling and forecasting the Indian G-Sec yield curve using RBI/CCIL trade data and macro-financial variables (repo rate, M3 growth, US 10Y, SOFR, USD/INR, CPI, WPI).
 
 G-Sec yields don't move in lockstep with the policy rate — over the sample period, the repo rate was cut (5.50% → 5.25%) while G-Sec yields broadly *rose*, a real divergence driven by fiscal and liquidity pressures rather than monetary policy alone. Understanding which macro variables actually move the curve, and how reliably, is directly relevant to rates desks, treasury functions, and macro/fixed-income research.
 
