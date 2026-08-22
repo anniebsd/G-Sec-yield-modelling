@@ -1,5 +1,9 @@
 # GSEC Model Report
 
+📄 **[Read the full report as a Google Doc](https://docs.google.com/document/d/1elRWO5k_YoSi17-59mF6y-0aYzeZZTY7F9dx32sW6mE/edit?usp=sharing)**
+
+> Tables and figures referenced throughout this report are maintained in a separate branch of this repository.
+
 ## Contents
 
 1. [Executive Summary](#1-executive-summary)
